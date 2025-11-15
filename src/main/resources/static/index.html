@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocPlatform · Файловое хранилище</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+    <h1>DocPlatform</h1>
+    <p>Загружайте и скачивайте документы через единый интерфейс.</p>
+</header>
+<main>
+    <section class="card">
+        <h2>Загрузка файла</h2>
+        <form id="upload-form">
+            <label for="file-input" class="button primary">Выберите файл</label>
+            <input id="file-input" type="file" name="file" required>
+            <span id="file-name">Файл не выбран</span>
+            <button type="submit" class="button">Загрузить</button>
+        </form>
+        <p class="hint">Допустимый размер до 10 МБ.</p>
+        <div id="message" role="alert"></div>
+    </section>
+
+    <section class="card">
+        <div class="header-row">
+            <h2>Загруженные файлы</h2>
+            <button id="refresh-button" class="button subtle" type="button">Обновить</button>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Размер</th>
+                <th>Обновлён</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="files-table">
+            <tr class="empty">
+                <td colspan="4">Файлы пока не загружены.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+<footer>
+    <p>DocPlatform · локальное файловое хранилище</p>
+</footer>
+<script src="/app.js" defer></script>
+</body>
+</html>

@@ -1,9 +1,6 @@
 HELP.md
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+/target/
+.mvn/
 
 ### STS ###
 .apt_generated
@@ -35,3 +32,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### macOS ###
+.DS_Store
