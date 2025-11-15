@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocPlatform · Работа с документами</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+    <h1>DocPlatform</h1>
+    <p>Управляйте файлами и рабочим процессом документов через единый интерфейс.</p>
+</header>
+<main>
+    <section class="card" id="file-storage">
+        <h2>Хранилище произвольных файлов</h2>
+        <form id="upload-form" class="stack">
+            <div class="file-picker">
+                <label for="file-input" class="button primary">Выберите файл</label>
+                <input id="file-input" type="file" name="file" required>
+                <span id="file-name">Файл не выбран</span>
+            </div>
+            <button type="submit" class="button">Загрузить</button>
+        </form>
+        <p class="hint">Допустимый размер до 10 МБ.</p>
+        <div id="message" role="alert" class="status-line"></div>
+        <div class="header-row">
+            <h3>Загруженные файлы</h3>
+            <button id="refresh-button" class="button subtle" type="button">Обновить</button>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>Имя</th>
+                    <th>Размер</th>
+                    <th>Обновлён</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="files-table">
+                <tr class="empty">
+                    <td colspan="4">Файлы пока не загружены.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="card" id="document-upload">
+        <h2>Загрузка документа с метаданными</h2>
+        <form id="document-upload-form" class="stack">
+            <label class="field">Файл документа
+                <input type="file" name="file" id="document-file" required>
+            </label>
+            <div class="two-column">
+                <label class="field">Номер документа
+                    <input type="text" name="documentNumber" required placeholder="DOC-2024-001">
+                </label>
+                <label class="field">Дата документа
+                    <input type="date" name="documentDate" required>
+                </label>
+            </div>
+            <div class="two-column">
+                <label class="field">Тип документа
+                    <select name="documentType" required>
+                        <option value="ORIGINAL">Оригинал</option>
+                        <option value="SCANNED_ORIGINAL">Отсканированный оригинал</option>
+                        <option value="UNKNOWN_COPY">Неопределённая копия</option>
+                    </select>
+                </label>
+                <label class="field">Email отправителя
+                    <input type="email" name="uploadedByEmail" required placeholder="uploader@example.com">
+                </label>
+            </div>
+            <label class="field">Email получателя (необязательно)
+                <input type="email" name="addressedToEmail" placeholder="recipient@example.com">
+            </label>
+            <button type="submit" class="button">Загрузить документ</button>
+        </form>
+        <div id="document-upload-status" class="status-line"></div>
+        <div id="document-upload-result" class="result"></div>
+    </section>
+
+    <section class="card" id="document-lookup">
+        <h2>Поиск документов</h2>
+        <div class="form-grid">
+            <div class="form-panel">
+                <form id="documents-addressed-form" class="stack">
+                    <h3>По получателю</h3>
+                    <label class="field">Email получателя
+                        <input type="email" name="email" required placeholder="recipient@example.com">
+                    </label>
+                    <button type="submit" class="button">Получить список</button>
+                </form>
+                <div id="documents-addressed-status" class="status-line"></div>
+                <div id="documents-addressed-result" class="result"></div>
+            </div>
+            <div class="form-panel">
+                <form id="documents-uploaded-form" class="stack">
+                    <h3>По отправителю</h3>
+                    <label class="field">Email отправителя
+                        <input type="email" name="email" required placeholder="uploader@example.com">
+                    </label>
+                    <button type="submit" class="button">Получить список</button>
+                </form>
+                <div id="documents-uploaded-status" class="status-line"></div>
+                <div id="documents-uploaded-result" class="result"></div>
+            </div>
+            <div class="form-panel">
+                <form id="document-by-number-form" class="stack">
+                    <h3>По номеру документа</h3>
+                    <label class="field">Номер документа
+                        <input type="text" name="documentNumber" required placeholder="DOC-2024-001">
+                    </label>
+                    <button type="submit" class="button">Найти</button>
+                </form>
+                <div id="document-by-number-status" class="status-line"></div>
+                <div id="document-by-number-result" class="result"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="card" id="document-actions">
+        <h2>Действия над документом</h2>
+        <div class="form-grid">
+            <div class="form-panel">
+                <form id="document-accept-form" class="stack">
+                    <h3>Принять документ</h3>
+                    <label class="field">Номер документа
+                        <input type="text" name="documentNumber" required>
+                    </label>
+                    <label class="field">Email исполнителя
+                        <input type="email" name="actorEmail" required>
+                    </label>
+                    <button type="submit" class="button">Принять</button>
+                </form>
+                <div id="document-accept-status" class="status-line"></div>
+            </div>
+            <div class="form-panel">
+                <form id="document-reject-form" class="stack">
+                    <h3>Отклонить документ</h3>
+                    <label class="field">Номер документа
+                        <input type="text" name="documentNumber" required>
+                    </label>
+                    <label class="field">Email исполнителя
+                        <input type="email" name="actorEmail" required>
+                    </label>
+                    <button type="submit" class="button">Отклонить</button>
+                </form>
+                <div id="document-reject-status" class="status-line"></div>
+            </div>
+            <div class="form-panel">
+                <form id="document-edit-form" class="stack">
+                    <h3>Редактировать и переотправить</h3>
+                    <label class="field">Текущий номер
+                        <input type="text" name="currentNumber" required>
+                    </label>
+                    <label class="field">Новый номер
+                        <input type="text" name="documentNumberNew" required>
+                    </label>
+                    <label class="field">Новая дата
+                        <input type="date" name="documentDate" required>
+                    </label>
+                    <label class="field">Новый тип
+                        <select name="documentType" required>
+                            <option value="ORIGINAL">Оригинал</option>
+                            <option value="SCANNED_ORIGINAL">Отсканированный оригинал</option>
+                            <option value="UNKNOWN_COPY">Неопределённая копия</option>
+                        </select>
+                    </label>
+                    <label class="field">Email исполнителя
+                        <input type="email" name="actorEmail" required>
+                    </label>
+                    <label class="field">Новый файл (необязательно)
+                        <input type="file" name="file">
+                    </label>
+                    <button type="submit" class="button">Сохранить изменения</button>
+                </form>
+                <div id="document-edit-status" class="status-line"></div>
+            </div>
+            <div class="form-panel">
+                <form id="document-acknowledge-form" class="stack">
+                    <h3>Ознакомить пользователя</h3>
+                    <label class="field">Номер документа
+                        <input type="text" name="documentNumber" required>
+                    </label>
+                    <label class="field">Email пользователя
+                        <input type="email" name="viewerEmail" required>
+                    </label>
+                    <button type="submit" class="button">Отметить ознакомление</button>
+                </form>
+                <div id="document-acknowledge-status" class="status-line"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="card" id="document-tracking">
+        <h2>Отслеживание статусов и действий</h2>
+        <div class="form-grid">
+            <div class="form-panel">
+                <form id="documents-acknowledged-form" class="stack">
+                    <h3>Документы пользователя</h3>
+                    <label class="field">Email пользователя
+                        <input type="email" name="email" required>
+                    </label>
+                    <button type="submit" class="button">Показать документы</button>
+                </form>
+                <div id="documents-acknowledged-status" class="status-line"></div>
+                <div id="documents-acknowledged-result" class="result"></div>
+            </div>
+            <div class="form-panel">
+                <form id="document-logs-form" class="stack">
+                    <h3>Журнал действий</h3>
+                    <label class="field">Номер документа
+                        <input type="text" name="documentNumber" required>
+                    </label>
+                    <button type="submit" class="button">Показать журнал</button>
+                </form>
+                <div id="document-logs-status" class="status-line"></div>
+                <div id="document-logs-result" class="result"></div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer>
+    <p>DocPlatform · управление полным циклом документов</p>
+</footer>
+<script src="/app.js" defer></script>
+</body>
+</html>
